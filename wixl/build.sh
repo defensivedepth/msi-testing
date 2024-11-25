@@ -1,0 +1,1 @@
+wixl -o test.msi --arch x64 Product.wxs

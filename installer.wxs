@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" 
+             Name="Application Installer" 
+             Language="1033" 
+             Version="1.0.0.0" 
+             Manufacturer="test01" 
+             UpgradeCode="12345678-1234-1234-1234-123456789012">
+        
+        <Package InstallerVersion="200" 
+                 Compressed="yes" 
+                 InstallScope="perMachine"/>
+
+        <Media Id="1" Cabinet="app.cab" EmbedCab="yes"/>
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="TempFolder">
+                <Directory Id="INSTALLFOLDER" Name="TempInstall">
+                    <Component Id="MainExecutable" Guid="87654321-4321-4321-4321-210987654321">
+                        <File Id="EXEFile" 
+                              Name="custom_installer.exe" 
+                              Source="/home/temp/custom_installer.exe" 
+                              KeyPath="yes"/>
+                    </Component>
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <Feature Id="ProductFeature" Title="Main Product" Level="1">
+            <ComponentRef Id="MainExecutable"/>
+        </Feature>
+
+        <CustomAction Id="RunApplication" 
+                     FileKey="EXEFile" 
+                     ExeCommand="" 
+                     Return="asyncNoWait"/>
+
+        <InstallExecuteSequence>
+            <Custom Action="RunApplication" After="InstallFinalize">NOT Installed</Custom>
+        </InstallExecuteSequence>
+
+    </Product>
+</Wix>
